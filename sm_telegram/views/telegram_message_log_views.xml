@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Message Log List -->
+    <record id="view_telegram_message_log_list" model="ir.ui.view">
+        <field name="name">sm.telegram.message.log.list</field>
+        <field name="model">sm.telegram.message.log</field>
+        <field name="arch" type="xml">
+            <list string="Telegram Message Logs"
+                  decoration-danger="status == 'error'"
+                  decoration-success="status == 'sent'"
+                  decoration-warning="status == 'queued'">
+                <field name="sent_at"/>
+                <field name="partner_id"/>
+                <field name="chat_id"/>
+                <field name="res_model"/>
+                <field name="res_id"/>
+                <field name="template_id"/>
+                <field name="report_id"/>
+                <field name="message_type"/>
+                <field name="status" widget="badge"
+                       decoration-success="status == 'sent'"
+                       decoration-danger="status == 'error'"
+                       decoration-warning="status == 'queued'"/>
+                <field name="retry_count"/>
+                <field name="sent_by"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Message Log Form -->
+    <record id="view_telegram_message_log_form" model="ir.ui.view">
+        <field name="name">sm.telegram.message.log.form</field>
+        <field name="model">sm.telegram.message.log</field>
+        <field name="arch" type="xml">
+            <form string="Telegram Message Log">
+                <header>
+                    <button name="action_retry" type="object"
+                            string="Retry" class="btn-primary"
+                            invisible="status != 'error'"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Recipient">
+                            <field name="partner_id"/>
+                            <field name="chat_id"/>
+                            <field name="bot_id"/>
+                        </group>
+                        <group string="Document">
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                            <field name="report_id"/>
+                            <field name="template_id"/>
+                        </group>
+                    </group>
+                    <group string="Content">
+                        <field name="message_text" nolabel="1"/>
+                        <field name="parse_mode"/>
+                        <field name="message_type"/>
+                    </group>
+                    <group string="Result">
+                        <group>
+                            <field name="status"/>
+                            <field name="sent_at"/>
+                            <field name="scheduled_at"/>
+                            <field name="sent_by"/>
+                        </group>
+                        <group>
+                            <field name="retry_count"/>
+                            <field name="max_retries"/>
+                            <field name="error_message"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Message Log Search -->
+    <record id="view_telegram_message_log_search" model="ir.ui.view">
+        <field name="name">sm.telegram.message.log.search</field>
+        <field name="model">sm.telegram.message.log</field>
+        <field name="arch" type="xml">
+            <search string="Telegram Logs">
+                <field name="partner_id"/>
+                <field name="res_model"/>
+                <field name="sent_by"/>
+                <filter name="sent" string="Sent" domain="[('status', '=', 'sent')]"/>
+                <filter name="error" string="Error" domain="[('status', '=', 'error')]"/>
+                <filter name="queued" string="Queued" domain="[('status', '=', 'queued')]"/>
+                <separator/>
+                <filter name="today" string="Today"
+                        domain="[('sent_at', '>=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_partner" string="Recipient" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_model" string="Model" context="{'group_by': 'res_model'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'sent_at:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_telegram_message_log" model="ir.actions.act_window">
+        <field name="name">Message Logs</field>
+        <field name="res_model">sm.telegram.message.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_telegram_message_log_search"/>
+    </record>
+
+</odoo>

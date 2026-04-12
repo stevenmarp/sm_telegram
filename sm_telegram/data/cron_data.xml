@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Cron: Retry failed messages -->
+    <record id="ir_cron_telegram_retry" model="ir.cron">
+        <field name="name">Telegram: Retry Failed Messages</field>
+        <field name="model_id" ref="model_sm_telegram_message_log"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_retry_failed()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Cron: Send scheduled messages -->
+    <record id="ir_cron_telegram_scheduled" model="ir.cron">
+        <field name="name">Telegram: Send Scheduled Messages</field>
+        <field name="model_id" ref="model_sm_telegram_message_log"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_scheduled()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

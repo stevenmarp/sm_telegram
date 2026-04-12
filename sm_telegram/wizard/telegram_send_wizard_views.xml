@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_telegram_send_wizard_form" model="ir.ui.view">
+        <field name="name">sm.telegram.send.wizard.form</field>
+        <field name="model">sm.telegram.send.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Telegram">
+                <field name="res_model" invisible="1"/>
+                <field name="res_id" invisible="1"/>
+                <field name="allowed_report_domain_ids" invisible="1"/>
+                <group>
+                    <field name="partner_ids"
+                           widget="many2many_tags"
+                           options="{'no_create': True}"
+                           domain="[('telegram_chat_id', '!=', False), ('telegram_chat_id', '!=', '')]"/>
+                    <field name="template_id"
+                           domain="[('model_name', '=', res_model)]"
+                           options="{'no_create': True}"/>
+                </group>
+                <group>
+                    <field name="message"
+                           placeholder="Type your message or select a template..."/>
+                    <field name="parse_mode"/>
+                </group>
+                <group>
+                    <field name="report_id"
+                           options="{'no_create': True}"
+                           domain="[('id', 'in', allowed_report_domain_ids)]"/>
+                    <field name="attachment_ids" widget="many2many_binary"/>
+                </group>
+                <group string="Scheduling">
+                    <field name="send_mode" widget="radio"/>
+                    <field name="scheduled_at"
+                           invisible="send_mode != 'scheduled'"/>
+                </group>
+                <footer>
+                    <button name="action_send" string="Send" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

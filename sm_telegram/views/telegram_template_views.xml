@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Template Form -->
+    <record id="view_telegram_template_form" model="ir.ui.view">
+        <field name="name">sm.telegram.template.form</field>
+        <field name="model">sm.telegram.template</field>
+        <field name="arch" type="xml">
+            <form string="Telegram Message Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Template Name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="model_id"/>
+                            <field name="model_name" invisible="1"/>
+                            <field name="parse_mode"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="report_id"
+                                   domain="[('model', '=', model_name)]"
+                                   options="{'no_create': True}"/>
+                            <field name="include_buttons"/>
+                        </group>
+                    </group>
+                    <group string="Message Body">
+                        <div class="alert alert-info" role="alert">
+                            <strong>Jinja2 Variables:</strong>
+                            <code>{{ object }}</code> = record,
+                            <code>{{ user }}</code> = current user,
+                            <code>{{ company }}</code> = company,
+                            <code>{{ partner }}</code> = recipient
+                        </div>
+                        <field name="body" nolabel="1"
+                               placeholder="Hello {{ partner.name }}, your order {{ object.name }} is confirmed!"/>
+                    </group>
+                    <group string="Inline Keyboard Buttons" invisible="not include_buttons">
+                        <field name="button_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="text"/>
+                                <field name="url" widget="url"/>
+                                <field name="new_row"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Preview">
+                        <field name="preview" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Template List -->
+    <record id="view_telegram_template_list" model="ir.ui.view">
+        <field name="name">sm.telegram.template.list</field>
+        <field name="model">sm.telegram.template</field>
+        <field name="arch" type="xml">
+            <list string="Telegram Templates">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="parse_mode"/>
+                <field name="report_id"/>
+                <field name="include_buttons"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_telegram_template" model="ir.actions.act_window">
+        <field name="name">Message Templates</field>
+        <field name="res_model">sm.telegram.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

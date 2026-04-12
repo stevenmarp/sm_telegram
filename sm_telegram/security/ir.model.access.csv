@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_telegram_bot_user,sm.telegram.bot.user,model_sm_telegram_bot,base.group_user,1,0,0,0
+access_sm_telegram_bot_admin,sm.telegram.bot.admin,model_sm_telegram_bot,base.group_system,1,1,1,1
+access_sm_telegram_model_config_user,sm.telegram.model.config.user,model_sm_telegram_model_config,base.group_user,1,0,0,0
+access_sm_telegram_model_config_admin,sm.telegram.model.config.admin,model_sm_telegram_model_config,base.group_system,1,1,1,1
+access_sm_telegram_template_user,sm.telegram.template.user,model_sm_telegram_template,base.group_user,1,0,0,0
+access_sm_telegram_template_admin,sm.telegram.template.admin,model_sm_telegram_template,base.group_system,1,1,1,1
+access_sm_telegram_template_button_user,sm.telegram.template.button.user,model_sm_telegram_template_button,base.group_user,1,0,0,0
+access_sm_telegram_template_button_admin,sm.telegram.template.button.admin,model_sm_telegram_template_button,base.group_system,1,1,1,1
+access_sm_telegram_message_log_user,sm.telegram.message.log.user,model_sm_telegram_message_log,base.group_user,1,1,1,0
+access_sm_telegram_message_log_admin,sm.telegram.message.log.admin,model_sm_telegram_message_log,base.group_system,1,1,1,1
+access_sm_telegram_send_wizard,sm.telegram.send.wizard,model_sm_telegram_send_wizard,base.group_user,1,1,1,1
